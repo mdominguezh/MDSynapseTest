@@ -1,0 +1,26 @@
+{
+	"name": "MDTrigger1",
+	"properties": {
+		"description": "Prueba de Trigger",
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "MDPipeline1",
+					"type": "PipelineReference"
+				}
+			}
+		],
+		"type": "ScheduleTrigger",
+		"typeProperties": {
+			"recurrence": {
+				"frequency": "Hour",
+				"interval": 1,
+				"startTime": "2022-08-05T10:00:00Z",
+				"endTime": "2022-08-06T10:00:00Z",
+				"timeZone": "UTC"
+			}
+		}
+	}
+}

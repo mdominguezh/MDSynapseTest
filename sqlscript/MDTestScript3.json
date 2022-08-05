@@ -1,0 +1,17 @@
+{
+	"name": "MDTestScript3",
+	"properties": {
+		"content": {
+			"query": "-- This is auto-generated code\nSELECT\n    TOP 100 *\nFROM\n    OPENROWSET(\n        BULK 'https://mddlakestorage.dfs.core.windows.net/mddlakestoragefs/NYCTaxi/PassengerCountStats_parquetformat/part-00000-35580d03-96ac-4047-ad97-7bfdc2b726cb-c000.snappy.parquet',\n        FORMAT = 'PARQUET'\n    ) AS [result]\n",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "master",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}

@@ -1,0 +1,29 @@
+name: workspace deployment
+
+on:
+    workflow_dispatch: 
+    
+    push:
+        branches: 
+          workspace_publish
+jobs:
+    deployworkspace:
+        # You also can use the self-hosted runners.
+        runs-on: windows-latest
+        steps:
+        # Checks out your repository under $GITHUB_WORKSPACE, so your job can access it.
+        - uses: actions/checkout@v2
+        - uses: azure/synapse-workspace-deployment@release-1.0
+          with:
+            TargetWorkspaceName: 'mdsynapsewspace-pro'
+            TemplateFile: './mdsynapsewspace/TemplateForWorkspace.json'
+            ParametersFile: './mdsynapsewspace/TemplateParametersForWorkspace.json'
+            OverrideArmParameters: './mdsynapsewspace/parameters.yaml'
+            environment: 'Azure Public'
+            resourceGroup: 'middle-desarrollo'
+            clientId: ${{secrets.CLIENTID}}
+            clientSecret:  ${{secrets.CLIENTSECRET}}
+            subscriptionId: 'c92e5baf-9b9d-48f0-95c0-190c39443f74'
+            tenantId: '077b766b-61f0-4e7c-9373-928832aa9fef'
+            DeleteArtifactsNotInTemplate: 'true'
+            managedIdentity: 'False'

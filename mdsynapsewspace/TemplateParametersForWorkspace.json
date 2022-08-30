@@ -8,6 +8,12 @@
 		"mdsynapsewspace-WorkspaceDefaultSqlServer_connectionString": {
 			"value": ""
 		},
+		"AzureBlobStorage1_properties_typeProperties_connectionString_secretName": {
+			"value": "adls-blob-key2"
+		},
+		"LS_AKV_properties_typeProperties_baseUrl": {
+			"value": "https://akv-cicddemo-test.vault.azure.net/"
+		},
 		"mdsynapsewspace-WorkspaceDefaultStorage_properties_typeProperties_url": {
 			"value": "https://mddlakestorage.dfs.core.windows.net"
 		}

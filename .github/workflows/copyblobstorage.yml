@@ -34,7 +34,7 @@ jobs:
       #    echo test, and deploy your project.
       - uses: azure/login@v1
         with:
-          creds: ${{ secrets.CLIENT_SECRET }}
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
       - name: Copy between blob storage PRE and PRO
         uses: azure/CLI@v1
         with:

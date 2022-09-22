@@ -44,7 +44,7 @@ jobs:
         with:
           version: 'v10'
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-      - run: azcopy_v10 cp --source 'https://mddlakestorage.blob.core.windows.net/mddlakestoragefs/NYCTripSmall.parquet' --destination 'https://mddlakestoragepro.blob.core.windows.net/mddlakestoragefspro/NYCTripSmall.parquet' 
+      - run: azcopy_v10 cp 'https://mddlakestorage.blob.core.windows.net/mddlakestoragefs/NYCTripSmall.parquet' 'https://mddlakestoragepro.blob.core.windows.net/mddlakestoragefspro/NYCTripSmall.parquet' 
       # Azure logout
       - name: logout
         run: |

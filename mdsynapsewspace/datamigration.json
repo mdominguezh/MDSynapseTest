@@ -1,0 +1,9 @@
+{"blob": [
+        {"source": "blobsrc1", "destination": "blobdst1"},
+        {"source": "blobsrc2","destination": "blobdst2"}
+    ],
+ "table": [
+        {"source": "tablesrc1", "destination": "tabledst1"},
+        {"source": "tablesrc2","destination": "tabledst2"}
+    ]
+}

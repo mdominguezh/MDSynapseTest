@@ -24,7 +24,7 @@ jobs:
         with:
           path: 'package.json'
           prop_path: 'scripts.format'
-      - run: echo ${{steps.format_script.outputs.prop}} 
+      - run: echo ${{steps.format_script.outputs.blob}} 
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on

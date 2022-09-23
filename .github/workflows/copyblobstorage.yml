@@ -22,7 +22,7 @@ jobs:
         id: format_script
         uses: notiz-dev/github-action-json-property@release
         with:
-          path: 'package.json'
+          path: './mdsynapsewspace/datamigration.json'
           prop_path: 'scripts.format'
       - run: echo ${{steps.format_script.outputs.blob}} 
   # This workflow contains a single job called "build"

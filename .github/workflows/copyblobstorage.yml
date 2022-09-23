@@ -13,6 +13,18 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+  parse:
+    runs-on: ubuntu-latest
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+      - name: get nested property
+        id: format_script
+        uses: notiz-dev/github-action-json-property@release
+        with:
+          path: 'package.json'
+          prop_path: 'scripts.format'
+      - run: echo ${{steps.format_script.outputs.prop}} 
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
@@ -32,23 +44,6 @@ jobs:
       #  run: |
       #    echo Add other actions to build,
       #    echo test, and deploy your project.
-      - id: set_var
-        run: |
-          content=`cat ./mdsynapsewspace/datamigration.json`
-          # the following lines are only required for multi line json
-          echo "${content}"
-          content="${content//'%'/'%25'}"
-          echo "${content}"
-          content="${content//$'\n'/'%0A'}"
-          echo "${content}"
-          content="${content//$'\r'/'%0D'}"
-          echo "${content}"
-          # end of optional handling for multi line json
-          echo "::set-output name=packageJson::$content"
-      - run: |
-          pwd          
-      - run: |
-          echo "${{fromJson(steps.set_var.outputs.packageJson).version}}"
       - uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}

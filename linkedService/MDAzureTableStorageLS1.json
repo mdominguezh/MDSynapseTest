@@ -1,0 +1,22 @@
+{
+	"name": "MDAzureTableStorageLS1",
+	"properties": {
+		"description": "Linked Service to Azure Table Storage Tes de Mdominguez 1",
+		"annotations": [],
+		"type": "AzureTableStorage",
+		"typeProperties": {
+			"connectionString": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "LS_AKV",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "adls-blob-key2"
+			}
+		},
+		"connectVia": {
+			"referenceName": "AutoResolveIntegrationRuntime",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}

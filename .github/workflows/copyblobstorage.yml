@@ -5,8 +5,8 @@ name: Copy between Blob storage
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
-  push:
-    branches: [ "workspace_publish" ]
+  #push:
+  #  branches: [ "workspace_publish" ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:

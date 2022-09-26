@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Copy between Blob storage 
+name: Copy between Table storage 
 
 # Controls when the workflow will run
 on:
@@ -35,6 +35,7 @@ jobs:
         with:
           version: 'v10'
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - run: azcopy copy -h
       - run: azcopy_v10 cp 'https://mddlakestorage.table.core.windows.net/MDTestTable1' 'https://mddlakestoragepro.table.core.windows.net/MDTestTable1'  
       # Azure logout
       - name: logout

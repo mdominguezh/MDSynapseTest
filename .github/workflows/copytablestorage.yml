@@ -36,6 +36,9 @@ jobs:
           version: 'v10'
           creds: ${{ secrets.AZURE_CREDENTIALS }}
       - run: azcopy copy -h
+      - run: azcopy -h
+      - run: which azcopy 
+      - run: which azcopy_v10
       - run: azcopy_v10 cp 'https://mddlakestorage.table.core.windows.net/MDTestTable1' 'https://mddlakestoragepro.table.core.windows.net/MDTestTable1'  
       # Azure logout
       - name: logout

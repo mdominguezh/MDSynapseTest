@@ -18,18 +18,22 @@ jobs:
     runs-on: ubuntu-latest
     # 
     env:
-      TSRC: ()
-      TDST: ()
+      TSRC: ${{ steps.processjson.outputs.src }}
+      TDST: ${{ steps.processjson.outputs.dst }}
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-      - run: |
+      - name: Process JSON
+        id: processjson
+        run: |
           #count=`jq '.blob | length' ./mdsynapsewspace/datamigration.json`
           #for ((i=0; i<$count; i++)); do
-            ${{ env.TSRC }}=`jq -r '.table[].source' ./mdsynapsewspace/datamigration.json`
-            ${{ env.TDST }}=`jq -r '.table[].destination' ./mdsynapsewspace/datamigration.json`
+            src=`jq -r '.table[].source' ./mdsynapsewspace/datamigration.json`
+            dst=`jq -r '.table[].destination' ./mdsynapsewspace/datamigration.json`
             #echo "Origen es $bsrc y destino es $bdst"
+            echo '::set-output name=TSRC::src'
+            echo '::set-output name=TDST::dst'
           #done
       - name: check juice with bash
         run: |

@@ -30,12 +30,19 @@ jobs:
       - uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-      - name: Copy between blob storage PRE and PRO
-        uses: kheiakiyama/install-azcopy-action@v1
-        with:
-          version: 'v10'
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-      - run: azcopy_v10 cp 'https://mddlakestorage.blob.core.windows.net/mddlakestoragefs/NYCTripSmall.parquet' 'https://mddlakestoragepro.blob.core.windows.net/mddlakestoragefspro/NYCTripSmall.parquet' --recursive 
+      - name: Copy between table storage
+        run: |
+          mkdir tableexport
+          count=$(jq '.blob | length' ./mdsynapsewspace/datamigration.json)
+          echo ${count}
+          for ((i=0; i<$count; i++)); do
+            src=$(jq -r '.blob['$i'].source' ./mdsynapsewspace/datamigration.json)
+            echo ${src}
+            dst=$(jq -r '.blob['$i'].destination' ./mdsynapsewspace/datamigration.json)
+            echo ${dst}
+            azcopy copy --source ${src} --destination ${dst} --recursive  
+          done      
+      #- run: azcopy 'https://mddlakestorage.blob.core.windows.net/mddlakestoragefs/NYCTripSmall.parquet' 'https://mddlakestoragepro.blob.core.windows.net/mddlakestoragefspro/NYCTripSmall.parquet' --recursive 
       # Azure logout
       - name: logout
         run: |

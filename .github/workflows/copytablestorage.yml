@@ -24,9 +24,9 @@ jobs:
 
       - name: Prueba escritura variables
         id: varwrite
-        run: PRUEBA1="prueba1NEWvalue"
+        run: |
+          export PRUEBA1="prueba1NEWvalue"
+          echo "::set-env name=PRUEBA1::$PRUEBA1"
       - name: Prueba lectura variables
         id: varread
         run: echo ${PRUEBA1}; 
-        env:
-          PRUEBA1: ${{ env.PRUEBA1 }}

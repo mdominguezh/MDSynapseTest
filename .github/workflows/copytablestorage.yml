@@ -16,16 +16,13 @@ jobs:
   buildjob:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    # 
-    env:
-      TSRC: ${{ steps.processjson.outputs.src }}
-      TDST: ${{ steps.processjson.outputs.dst }}
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
       - name: Process JSON
         id: processjson
+        #
         run: |
           #count=`jq '.blob | length' ./mdsynapsewspace/datamigration.json`
           #for ((i=0; i<$count; i++)); do
@@ -36,6 +33,9 @@ jobs:
             echo '::set-output name=TDST::dst'
           #done
       - name: check juice with bash
+        env:
+          TSRC: ${{ steps.processjson.outputs.src }}
+          TDST: ${{ steps.processjson.outputs.dst }}
         run: |
           array=${{ env.TSRC }}
           for item in ${array[*]}

@@ -16,57 +16,17 @@ jobs:
   buildjob:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+    env:
+      PRUEBA1 : 'prueba1value'
+      PRUEBA2 : 'prueba2value'
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-      - name: Process JSON
-        id: processjson
-        #
-        run: |
-          #count=`jq '.blob | length' ./mdsynapsewspace/datamigration.json`
-          #for ((i=0; i<$count; i++)); do
-            src=`jq -r '.table[].source' ./mdsynapsewspace/datamigration.json`
-            dst=`jq -r '.table[].destination' ./mdsynapsewspace/datamigration.json`
-            #echo "Origen es $bsrc y destino es $bdst"
-            echo "Origen es $src y destino es $dst"
-            echo '::echo::on'
-            echo '::set-output name=TSRC::src'
-            echo '::set-output name=TDST::dst'
-            echo '::echo::off'
-            echo "Origen es $TSRC y destino es $TDST"
-          #done
-      - name: check juice with bash
-        env:
-          TSRC: ${{ steps.processjson.outputs.src }}
-          TDST: ${{ steps.processjson.outputs.dst }}
-        run: |
-          echo ${TSRC}
-          array=${TSRC}
-          for item in ${array[*]}
-          do
-            echo "Origen es $item y destino es "
-          done
-      - uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-#      - name: Copy between blob storage PRE and PRO
-#        uses: kheiakiyama/install-azcopy-action@v1
-#        with:
-#          version: 'v10'
-#          creds: ${{ secrets.AZURE_CREDENTIALS }}
-      - run: tar -xzf ./utils/azcopy_7.3.0-netcore_linux_x64_modified.tar.gz; sudo ./azcopy_7.3.0-netcore_linux_x64/install.sh
-      - run: azcopy copy -h
-      - run: azcopy -h
-      #- run: which azcopyv7
-      #- run: azcopyv7 --version
-      #- run: azcopyv7 --help
-      #- run: ls -lhA /usr/local/bin/azcopy*
-      - run: mkdir tableexport
-      - run: azcopyv7 --source https://mddlakestorage.table.core.windows.net/MDTestTable1 --destination ~/tableexport/ --source-key ${{secrets.SOURCE_STORAGE_KEY}} --verbose --source-type blob
-      - run: ls -lhA ./tableexport/
-      # Azure logout
-      - name: logout
-        run: |
-          az logout
-        if: always()
+
+      - name: Prueba escritura variables
+        id: varwrite
+        run: PRUEBA1="prueba1value"
+      - name: Prueba lectura variables
+        id: varread
+        run: echo ${PRUEBA1}; echo ${PRUEBA2}; 

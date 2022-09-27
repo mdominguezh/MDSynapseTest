@@ -26,7 +26,7 @@ jobs:
 
       - name: Prueba escritura variables
         id: varwrite
-        run: PRUEBA1="prueba1value"
+        run: PRUEBA1="prueba1NEWvalue"
       - name: Prueba lectura variables
         id: varread
         run: echo ${PRUEBA1}; echo ${PRUEBA2}; 

@@ -29,7 +29,7 @@ jobs:
       - name: Copy between table storage
         run: |
           mkdir tableexport
-          count=$(jq '.blob | length' ./mdsynapsewspace/datamigration.json)
+          count=$(jq '.table | length' ./mdsynapsewspace/datamigration.json)
           echo ${count}
           for ((i=0; i<$count; i++)); do
             src=$(jq -r '.table['$i'].source' ./mdsynapsewspace/datamigration.json)

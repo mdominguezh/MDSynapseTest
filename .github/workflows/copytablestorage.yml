@@ -38,8 +38,8 @@ jobs:
       - run: tar -xzf ./utils/azcopy_7.3.0-netcore_linux_x64_modified.tar.gz; sudo ./azcopy_7.3.0-netcore_linux_x64/install.sh
       - run: azcopy copy -h
       - run: azcopy -h
-      - run: which azcopy_v7
-      - run: azcopy_v7 -h
+      - run: which azcopyv7
+      - run: azcopyv7 -h
       - run: ls -lhA /usr/local/bin/azcopy*
       - run: azcopy_v8 cp 'https://mddlakestorage.table.core.windows.net/MDTestTable1' 'https://mddlakestoragepro.table.core.windows.net/MDTestTable1'  
       # Azure logout

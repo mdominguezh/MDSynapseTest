@@ -30,8 +30,10 @@ jobs:
             dst=`jq -r '.table[].destination' ./mdsynapsewspace/datamigration.json`
             #echo "Origen es $bsrc y destino es $bdst"
             echo "Origen es $src y destino es $dst"
+            echo '::echo::on'
             echo '::set-output name=TSRC::src'
             echo '::set-output name=TDST::dst'
+            echo '::echo::off'
             echo "Origen es $TSRC y destino es $TDST"
           #done
       - name: check juice with bash

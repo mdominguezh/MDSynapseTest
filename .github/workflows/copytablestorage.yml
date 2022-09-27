@@ -28,3 +28,5 @@ jobs:
       - name: Prueba lectura variables
         id: varread
         run: echo ${PRUEBA1}; 
+        env:
+          PRUEBA1: ${{ env.PRUEBA1 }}

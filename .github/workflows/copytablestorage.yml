@@ -32,9 +32,9 @@ jobs:
           count=$(jq '.blob | length' ./mdsynapsewspace/datamigration.json)
           echo ${count}
           for ((i=0; i<$count; i++)); do
-            src=$(jq -r '.table[$i].source' ./mdsynapsewspace/datamigration.json)
+            src=$(jq -r '.table['$i'].source' ./mdsynapsewspace/datamigration.json)
             echo ${src}
-            dst=$(jq -r '.table[$i].destination' ./mdsynapsewspace/datamigration.json)
+            dst=$(jq -r '.table['$i'].destination' ./mdsynapsewspace/datamigration.json)
             echo ${dst}
             azcopyv7 --source ${src} --destination ~/tableexport/ --source-key ${{secrets.SOURCE_STORAGE_KEY}} --verbose 
           done

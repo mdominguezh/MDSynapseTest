@@ -24,11 +24,8 @@ jobs:
       - name: Process JSON
         id: processjson
         run: |
-            src=`jq -r '.table[].source' ./mdsynapsewspace/datamigration.json`
-            dst=`jq -r '.table[].destination' ./mdsynapsewspace/datamigration.json`
-            echo 'PRUEBA1<<EOF' >> $GITHUB_ENV
-            scho '$src' >> $GITHUB_ENV
-            echo 'EOF' >> $GITHUB_ENV
+            echo ::set-output name=TSRC::"$(jq -r '.table[].source' ./mdsynapsewspace/datamigration.json)"
       - name: Prueba lectura variables
         id: varread
-        run: echo ${{ env.PRUEBA1 }};
+        run: echo ${{ steps.processjson.outputs.TSRC }};
+          

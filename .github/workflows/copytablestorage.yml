@@ -21,11 +21,22 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-      - name: Process JSON
-        id: processjson
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Install azcopyv7 to copy table storage
+        run: tar -xzf ./utils/azcopy_7.3.0-netcore_linux_x64_modified.tar.gz; sudo ./azcopy_7.3.0-netcore_linux_x64/install.sh
+      - name: Copy between table storage
         run: |
-            echo ::set-output name=TSRC::"$(jq -r '.table[].source' ./mdsynapsewspace/datamigration.json)"
-      - name: Prueba lectura variables
-        id: varread
-        run: echo ${{ steps.processjson.outputs.TSRC }};
-          
+          mkdir tableexport
+          count=`jq '.blob | length' ./mdsynapsewspace/datamigration.json`
+          for ((i=0; i<$count; i++)); do
+            src=$(jq -r '.table[].source' ./mdsynapsewspace/datamigration.json)
+            dst=$(jq -r '.table[].destination' ./mdsynapsewspace/datamigration.json)
+            azcopyv7 --source ${src} --destination ~/tableexport/ --source-key ${{secrets.SOURCE_STORAGE_KEY}} --verbose 
+      - run: ls -lhA ./tableexport/
+      # Azure logout
+      - name: logout
+        run: |
+          az logout
+        if: always()

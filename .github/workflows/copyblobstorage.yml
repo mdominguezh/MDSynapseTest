@@ -40,7 +40,7 @@ jobs:
             echo ${src}
             dst=$(jq -r '.blob['$i'].destination' ./mdsynapsewspace/datamigration.json)
             echo ${dst}
-            azcopy copy --source ${src} --destination ${dst} --recursive  
+            azcopy copy ${src} ${dst} --recursive  
           done      
       #- run: azcopy 'https://mddlakestorage.blob.core.windows.net/mddlakestoragefs/NYCTripSmall.parquet' 'https://mddlakestoragepro.blob.core.windows.net/mddlakestoragefspro/NYCTripSmall.parquet' --recursive 
       # Azure logout

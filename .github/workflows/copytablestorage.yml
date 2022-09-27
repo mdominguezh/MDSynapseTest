@@ -29,15 +29,18 @@ jobs:
             src=`jq -r '.table[].source' ./mdsynapsewspace/datamigration.json`
             dst=`jq -r '.table[].destination' ./mdsynapsewspace/datamigration.json`
             #echo "Origen es $bsrc y destino es $bdst"
+            echo "Origen es $src y destino es $dst"
             echo '::set-output name=TSRC::src'
             echo '::set-output name=TDST::dst'
+            echo "Origen es $TSRC y destino es $TDST"
           #done
       - name: check juice with bash
         env:
           TSRC: ${{ steps.processjson.outputs.src }}
           TDST: ${{ steps.processjson.outputs.dst }}
         run: |
-          array=${{ env.TSRC }}
+          echo ${TSRC}
+          array=${TSRC}
           for item in ${array[*]}
           do
             echo "Origen es $item y destino es "

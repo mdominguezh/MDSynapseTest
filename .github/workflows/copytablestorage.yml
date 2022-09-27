@@ -25,8 +25,9 @@ jobs:
       - name: Prueba escritura variables
         id: varwrite
         run: |
-          export PRUEBA1="prueba1NEWvalue"
-          echo "::set-env name=PRUEBA1::$PRUEBA1"
+          #export PRUEBA1="prueba1NEWvalue"
+          #echo "::set-env name=PRUEBA1::$PRUEBA1"
+          echo "PRUEBA1=prueba1NEWvalue" >> $GITHUB_ENV
       - name: Prueba lectura variables
         id: varread
-        run: echo ${PRUEBA1}; 
+        run: echo ${{ env.PRUEBA1 }} 

@@ -1,9 +1,9 @@
 {"blob": [
-        {"source": "blobsrc1", "destination": "blobdst1"},
+        {"source": "https://mddlakestorage.blob.core.windows.net/mddlakestoragefs/NYCTripSmall.parquet", "destination": "https://mddlakestoragepro.blob.core.windows.net/mddlakestoragefspro/NYCTripSmall.parquet"},
         {"source": "blobsrc2","destination": "blobdst2"}
     ],
  "table": [
-        {"source": "tablesrc1", "destination": "tabledst1"},
+        {"source": "https://mddlakestorage.table.core.windows.net/MDTestTable1", "destination": "https://mddlakestoragepro.table.core.windows.net/MDTestTable1"},
         {"source": "tablesrc2","destination": "tabledst2"}
     ]
 }

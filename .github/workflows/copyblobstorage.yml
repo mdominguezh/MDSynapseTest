@@ -20,15 +20,13 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-      - run: |
-          count=`jq '.blob | length' ./mdsynapsewspace/datamigration.json`
-          for ((i=0; i<$count; i++)); do
-            bsrc=`jq -r '.blob['$i'].source' ./mdsynapsewspace/datamigration.json`
-            bdst=`jq -r '.blob['$i'].destination' ./mdsynapsewspace/datamigration.json`
-            echo "Origen es $bsrc y destino es $bdst"
-          done
       - uses: azure/login@v1
         with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Copy between blob storage PRE and PRO
+        uses: kheiakiyama/install-azcopy-action@v1
+        with:
+          version: 'v10'
           creds: ${{ secrets.AZURE_CREDENTIALS }}
       - name: Copy between table storage
         run: |
@@ -40,7 +38,7 @@ jobs:
             echo ${src}
             dst=$(jq -r '.blob['$i'].destination' ./mdsynapsewspace/datamigration.json)
             echo ${dst}
-            azcopy copy ${src} ${dst} --recursive  
+            azcopy_v10 copy ${src} ${dst} --recursive  
           done      
       #- run: azcopy 'https://mddlakestorage.blob.core.windows.net/mddlakestoragefs/NYCTripSmall.parquet' 'https://mddlakestoragepro.blob.core.windows.net/mddlakestoragefspro/NYCTripSmall.parquet' --recursive 
       # Azure logout

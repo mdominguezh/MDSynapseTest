@@ -43,7 +43,7 @@ jobs:
       #- run: azcopyv7 --help
       #- run: ls -lhA /usr/local/bin/azcopy*
       - run: mkdir tableexport
-      - run: azcopyv7 --source https://mddlakestorage.table.core.windows.net/MDTestTable1 --destination ~/tableexport/ --source-key ${{secrets.SOURCE_STORAGE_KEY}} --verbose
+      - run: azcopyv7 --source https://mddlakestorage.table.core.windows.net/MDTestTable1 --destination ~/tableexport/ --source-key ${{secrets.SOURCE_STORAGE_KEY}} --verbose --source-type blob
       - run: ls -lhA ./tableexport/
       # Azure logout
       - name: logout

@@ -35,7 +35,7 @@ jobs:
 #        with:
 #          version: 'v10'
 #          creds: ${{ secrets.AZURE_CREDENTIALS }}
-      - run: tar -xzf ./utils/azcopy_7.3.0-netcore_linux_x64_modified.tar.gz; ./azcopy_7.3.0-netcore_linux_x64/install.sh
+      - run: tar -xzf ./utils/azcopy_7.3.0-netcore_linux_x64_modified.tar.gz; sudo ./azcopy_7.3.0-netcore_linux_x64/install.sh
       - run: azcopy copy -h
       - run: azcopy -h
       - run: which azcopy_v7

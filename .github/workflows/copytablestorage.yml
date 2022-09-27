@@ -26,7 +26,9 @@ jobs:
         run: |
             src=`jq -r '.table[].source' ./mdsynapsewspace/datamigration.json`
             dst=`jq -r '.table[].destination' ./mdsynapsewspace/datamigration.json`
-            echo "PRUEBA1=$src" >> $GITHUB_ENV           
+            echo 'PRUEBA1<<EOF' >> $GITHUB_ENV
+            scho $src >> $GITHUB_ENV
+            echo 'EOF' >> $GITHUB_ENV
       - name: Prueba lectura variables
         id: varread
         run: echo ${{ env.PRUEBA1 }};

@@ -21,13 +21,13 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-
-      - name: Prueba escritura variables
-        id: varwrite
+      - name: Process JSON
+        id: processjson
         run: |
-          #export PRUEBA1="prueba1NEWvalue"
-          #echo "::set-env name=PRUEBA1::$PRUEBA1"
-          echo "PRUEBA1=prueba1NEWvalue" >> $GITHUB_ENV
+            src=`jq -r '.table[].source' ./mdsynapsewspace/datamigration.json`
+            dst=`jq -r '.table[].destination' ./mdsynapsewspace/datamigration.json`
+            echo "PRUEBA1=$src" >> $GITHUB_ENV
+            echo "PRUEBA2=$dst" >> $GITHUB_ENV            
       - name: Prueba lectura variables
         id: varread
-        run: echo ${{ env.PRUEBA1 }} 
+        run: echo ${{ env.PRUEBA1 }};echo ${{ env.PRUEBA2 }}; 

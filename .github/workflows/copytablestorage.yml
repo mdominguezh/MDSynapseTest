@@ -42,7 +42,8 @@ jobs:
       #- run: azcopyv7 --version
       #- run: azcopyv7 --help
       #- run: ls -lhA /usr/local/bin/azcopy*
-      - run: azcopyv7 --source 'https://mddlakestorage.table.core.windows.net/MDTestTable1' --destination 'https://mddlakestoragepro.table.core.windows.net/MDTestTable1'  
+      - run: azcopyv7 --source 'https://mddlakestorage.table.core.windows.net/MDTestTable1' --destination . -source-key ${{secrets.SOURCE_STORAGE_KEY}}
+      - run: ls -lhA
       # Azure logout
       - name: logout
         run: |

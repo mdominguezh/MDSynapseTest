@@ -13,17 +13,30 @@ jobs:
         steps:
         # Checks out your repository under $GITHUB_WORKSPACE, so your job can access it.
         - uses: actions/checkout@v2
-        - uses: azure/synapse-workspace-deployment@release-1.0
+        - name: Extract all keywords from package.json
+          uses: sergeysova/jq-action@v2
+          id: keywords
           with:
-            TargetWorkspaceName: 'mdsynapsewspace-pro'
-            TemplateFile: './mdsynapsewspace/TemplateForWorkspace.json'
-            ParametersFile: './mdsynapsewspace/TemplateParametersForWorkspace.json'
-            OverrideArmParameters: './mdsynapsewspace/parameters.yaml'
-            environment: 'Azure Public'
-            resourceGroup: 'middle-desarrollo'
-            clientId: ${{secrets.CLIENTID}}
-            clientSecret:  ${{secrets.CLIENTSECRET}}
-            subscriptionId: 'c92e5baf-9b9d-48f0-95c0-190c39443f74'
-            tenantId: '077b766b-61f0-4e7c-9373-928832aa9fef'
-            DeleteArtifactsNotInTemplate: 'true'
-            managedIdentity: 'False'
+            cmd: jq  \'. | select( .resources[]."type" | contains("Microsoft.Synapse/workspaces/linkedServices") | not )\' ./mdsynapsewspace/TemplateForWorkspace.json -r
+            multiline: true
+      
+        - name: Show keywords
+          run: |
+            keywords="${{ steps.keywords.outputs.value }}"
+            for keyword in $keywords; do
+                echo "$keyword"
+            done
+#        - uses: azure/synapse-workspace-deployment@release-1.0
+#          with:
+#            TargetWorkspaceName: 'mdsynapsewspace-pro'
+#            TemplateFile: './mdsynapsewspace/TemplateForWorkspace.json'
+#            ParametersFile: './mdsynapsewspace/TemplateParametersForWorkspace.json'
+#            OverrideArmParameters: './mdsynapsewspace/parameters.yaml'
+#            environment: 'Azure Public'
+#            resourceGroup: 'middle-desarrollo'
+#            clientId: ${{secrets.CLIENTID}}
+#            clientSecret:  ${{secrets.CLIENTSECRET}}
+#            subscriptionId: 'c92e5baf-9b9d-48f0-95c0-190c39443f74'
+#            tenantId: '077b766b-61f0-4e7c-9373-928832aa9fef'
+#            DeleteArtifactsNotInTemplate: 'true'
+#            managedIdentity: 'False'

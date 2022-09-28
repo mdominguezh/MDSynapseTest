@@ -24,7 +24,7 @@ jobs:
 #            multiline: true
         - name: Install jq
           run: |
-            VERSION_JSON=$(jq  '. | select( .resources[]."type" | contains("Microsoft.Synapse/workspaces/linkedServices") | not )' ./mdsynapsewspace/TemplateForWorkspace.json -r)
+            VERSION_JSON=$(jq -c '. | select( .resources[]."type" | contains("Microsoft.Synapse/workspaces/linkedServices") | not )' ./mdsynapsewspace/TemplateForWorkspace.json -r)
             #echo ${VERSION_JSON}
             echo "::set-output name=value::${VERSION_JSON}"
         - name: Show keywords
@@ -54,10 +54,10 @@ jobs:
         strategy:
             matrix:
                 TEST: [buy, cancel, create_auction_house, delegate, deposit, execute_sale, sell, update_auction_house, withdraw_from_fee, withdraw_from_treasury, withdraw]
-                SOLANA_VERSION: ${{fromJson(needs.setup.outputs.modifiedjson)}}
+                SOLANA_VERSION: ${{fromJson(needs.deployworkspace.outputs.modifiedjson)}}
         steps:
             - uses: actions/checkout@v2
       # For pull requests it's not necessary to checkout the code
             - name: debug
               id: debug
-              run: echo ${{ needs.setup.outputs.modifiedjson }}
+              run: echo ${{ needs.deployworkspace.outputs.modifiedjson }}

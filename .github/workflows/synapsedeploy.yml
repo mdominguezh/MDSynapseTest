@@ -14,13 +14,18 @@ jobs:
         steps:
         # Checks out your repository under $GITHUB_WORKSPACE, so your job can access it.
         - uses: actions/checkout@v2
-        - name: Extract all keywords from package.json
-          uses: sergeysova/jq-action@v2
-          id: keywords
-          with:
-            cmd: jq  \'. | select( .resources[]."type" | contains("Microsoft.Synapse/workspaces/linkedServices") | not )\' ./mdsynapsewspace/TemplateForWorkspace.json -r
-            multiline: true
-      
+#        - name: Extract all keywords from package.json
+#          uses: sergeysova/jq-action@v2
+#          id: keywords
+#          with:
+#            cmd: jq  \'. | select( .resources[]."type" | contains("Microsoft.Synapse/workspaces/linkedServices") | not )\' ./mdsynapsewspace/TemplateForWorkspace.json -r
+#            multiline: true
+        - name: Install jq
+          run: |
+            which jq
+            sudo apt install jq -y
+            VERSION_JSON=$(jq  \'. | select( .resources[]."type" | contains("Microsoft.Synapse/workspaces/linkedServices") | not )\' ./mdsynapsewspace/TemplateForWorkspace.json -r)
+            echo ${VERSION_JSON}
         - name: Show keywords
           run: |
             keywords="${{ steps.keywords.outputs.value }}"

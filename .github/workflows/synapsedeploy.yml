@@ -11,6 +11,8 @@ jobs:
         # You also can use the self-hosted runners.
         #runs-on: windows-latest
         runs-on: ubuntu-latest
+        outputs:
+            modifiedjson: ${{ steps.matrix.outputs.value }}
         steps:
         # Checks out your repository under $GITHUB_WORKSPACE, so your job can access it.
         - uses: actions/checkout@v2
@@ -22,10 +24,9 @@ jobs:
 #            multiline: true
         - name: Install jq
           run: |
-            which jq
-            sudo apt install jq -y
             VERSION_JSON=$(jq  '. | select( .resources[]."type" | contains("Microsoft.Synapse/workspaces/linkedServices") | not )' ./mdsynapsewspace/TemplateForWorkspace.json -r)
-            echo ${VERSION_JSON}
+            #echo ${VERSION_JSON}
+            echo "::set-output name=value::${VERSION_JSON}"
         - name: Show keywords
           run: |
             keywords="${{ steps.keywords.outputs.value }}"
@@ -46,3 +47,17 @@ jobs:
 #            tenantId: '077b766b-61f0-4e7c-9373-928832aa9fef'
 #            DeleteArtifactsNotInTemplate: 'true'
 #            managedIdentity: 'False'
+    changes:
+        needs: deployworkspace
+        runs-on: ubuntu-latest
+    # Set job outputs to values from filter step
+        strategy:
+            matrix:
+                TEST: [buy, cancel, create_auction_house, delegate, deposit, execute_sale, sell, update_auction_house, withdraw_from_fee, withdraw_from_treasury, withdraw]
+                SOLANA_VERSION: ${{fromJson(needs.setup.outputs.modifiedjson)}}
+        steps:
+            - uses: actions/checkout@v2
+      # For pull requests it's not necessary to checkout the code
+            - name: debug
+              id: debug
+              run: echo ${{ needs.setup.outputs.modifiedjson }}

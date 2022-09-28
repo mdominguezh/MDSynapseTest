@@ -9,7 +9,8 @@ on:
 jobs:
     deployworkspace:
         # You also can use the self-hosted runners.
-        runs-on: windows-latest
+        #runs-on: windows-latest
+        runs-on: ubuntu-latest
         steps:
         # Checks out your repository under $GITHUB_WORKSPACE, so your job can access it.
         - uses: actions/checkout@v2

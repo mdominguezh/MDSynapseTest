@@ -24,7 +24,7 @@ jobs:
           run: |
             which jq
             sudo apt install jq -y
-            VERSION_JSON=$(jq  \'. | select( .resources[]."type" | contains("Microsoft.Synapse/workspaces/linkedServices") | not )\' ./mdsynapsewspace/TemplateForWorkspace.json -r)
+            VERSION_JSON=$(jq  '. | select( .resources[]."type" | contains("Microsoft.Synapse/workspaces/linkedServices") | not )' ./mdsynapsewspace/TemplateForWorkspace.json -r)
             echo ${VERSION_JSON}
         - name: Show keywords
           run: |

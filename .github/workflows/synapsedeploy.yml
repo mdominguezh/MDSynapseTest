@@ -41,14 +41,28 @@ jobs:
           with:
             name: modifiedjson-artifact
             path: ./mdsynapsewspace/TemplateForWorkspace_modified.json
+            
     deployworkspace:
         needs: parsejson
-        runs-on: ubuntu-latest
-    # Set job outputs to values from filter step
+        # You also can use the self-hosted runners.
+        runs-on: windows-latest
         steps:
-            - uses: actions/checkout@v2
-            - uses: actions/download-artifact@v2
-              with:
-                name: modifiedjson-artifact
-            - run: ls 
-            - run: ls ./mdsynapsewspace/TemplateForWorkspace_modified.json && cat ./mdsynapsewspace/TemplateForWorkspace_modified.json
+        # Checks out your repository under $GITHUB_WORKSPACE, so your job can access it.
+        - uses: actions/checkout@v2
+        - uses: actions/download-artifact@v2
+          with:
+              name: modifiedjson-artifact
+        - uses: azure/synapse-workspace-deployment@release-1.0
+          with:
+            TargetWorkspaceName: 'mdsynapsewspace-pro'
+            TemplateFile: './TemplateForWorkspace_modified.json'
+            ParametersFile: './mdsynapsewspace/TemplateParametersForWorkspace.json'
+            OverrideArmParameters: './mdsynapsewspace/parameters.yaml'
+            environment: 'Azure Public'
+            resourceGroup: 'middle-desarrollo'
+            clientId: ${{secrets.CLIENTID}}
+            clientSecret:  ${{secrets.CLIENTSECRET}}
+            subscriptionId: 'c92e5baf-9b9d-48f0-95c0-190c39443f74'
+            tenantId: '077b766b-61f0-4e7c-9373-928832aa9fef'
+            DeleteArtifactsNotInTemplate: 'true'
+            managedIdentity: 'False'

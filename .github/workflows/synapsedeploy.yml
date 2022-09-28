@@ -7,12 +7,10 @@ on:
     #    branches: 
     #      workspace_publish
 jobs:
-    deployworkspace:
+    parsejson:
         # You also can use the self-hosted runners.
         #runs-on: windows-latest
         runs-on: ubuntu-latest
-        outputs:
-            modifiedjson: ${{ steps.matrix.outputs.value }}
         steps:
         # Checks out your repository under $GITHUB_WORKSPACE, so your job can access it.
         - uses: actions/checkout@v2
@@ -22,17 +20,9 @@ jobs:
 #          with:
 #            cmd: jq  \'. | select( .resources[]."type" | contains("Microsoft.Synapse/workspaces/linkedServices") | not )\' ./mdsynapsewspace/TemplateForWorkspace.json -r
 #            multiline: true
-        - name: Install jq
+        - name: Parsing JSON to delete linkedServices
           run: |
-            VERSION_JSON=$(jq -c '. | select( .resources[]."type" | contains("Microsoft.Synapse/workspaces/linkedServices") | not )' ./mdsynapsewspace/TemplateForWorkspace.json -r | sed 's/"/\\"/g'| sed 's/ //g')
-            #echo ${VERSION_JSON}
-            echo "::set-output name=value::${VERSION_JSON}"
-        - name: Show keywords
-          run: |
-            keywords="${{ steps.keywords.outputs.value }}"
-            for keyword in $keywords; do
-                echo "$keyword"
-            done
+            $(jq '. | select( .resources[]."type" | contains("Microsoft.Synapse/workspaces/linkedServices") | not )' ./mdsynapsewspace/TemplateForWorkspace.json -r > ./mdsynapsewspace/TemplateForWorkspace_modified.json)
 #        - uses: azure/synapse-workspace-deployment@release-1.0
 #          with:
 #            TargetWorkspaceName: 'mdsynapsewspace-pro'
@@ -47,17 +37,18 @@ jobs:
 #            tenantId: '077b766b-61f0-4e7c-9373-928832aa9fef'
 #            DeleteArtifactsNotInTemplate: 'true'
 #            managedIdentity: 'False'
-    changes:
-        needs: deployworkspace
+        - uses: actions/upload-artifact@v2
+          with:
+            name: modifiedjson-artifact
+            path: ./mdsynapsewspace/TemplateForWorkspace_modified.json
+    deployworkspace:
+        needs: parsejson
         runs-on: ubuntu-latest
     # Set job outputs to values from filter step
-        strategy:
-            matrix:
-                TEST: [buy, cancel, create_auction_house, delegate, deposit, execute_sale, sell, update_auction_house, withdraw_from_fee, withdraw_from_treasury, withdraw]
-                SOLANA_VERSION: ${{fromJson(needs.deployworkspace.outputs.modifiedjson)}}
         steps:
             - uses: actions/checkout@v2
-      # For pull requests it's not necessary to checkout the code
-            - name: debug
-              id: debug
-              run: echo ${{ needs.deployworkspace.outputs.modifiedjson }}
+            - uses: actions/download-artifact@v2
+              with:
+                name: modifiedjson-artifact
+            - run: ls 
+            - run: ls ./mdsynapsewspace/TemplateForWorkspace_modified.json && cat ./mdsynapsewspace/TemplateForWorkspace_modified.json

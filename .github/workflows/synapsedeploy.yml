@@ -24,7 +24,7 @@ jobs:
 #            multiline: true
         - name: Install jq
           run: |
-            VERSION_JSON=$(jq -c '. | select( .resources[]."type" | contains("Microsoft.Synapse/workspaces/linkedServices") | not )' ./mdsynapsewspace/TemplateForWorkspace.json -r)
+            VERSION_JSON=$(jq -c '. | select( .resources[]."type" | contains("Microsoft.Synapse/workspaces/linkedServices") | not )' ./mdsynapsewspace/TemplateForWorkspace.json -r | sed 's/"/\\"/g')
             #echo ${VERSION_JSON}
             echo "::set-output name=value::${VERSION_JSON}"
         - name: Show keywords

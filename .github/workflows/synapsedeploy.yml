@@ -22,7 +22,7 @@ jobs:
 #            multiline: true
         - name: Parsing JSON to delete linkedServices
           run: |
-            $(jq '. | select( .resources[]."type" | contains("Microsoft.Synapse/workspaces/linkedServices") | not )' ./mdsynapsewspace/TemplateForWorkspace.json -r > ./mdsynapsewspace/TemplateForWorkspace_modified.json)
+            $(cat ./mdsynapsewspace/TemplateForWorkspace.json | jq  'del(.resources[] | select( ."type" | contains("Microsoft.Synapse/workspaces/linkedServices") ) )' > ./mdsynapsewspace/TemplateForWorkspace_modified.json)
             cat ./mdsynapsewspace/TemplateForWorkspace_modified.json
 #        - uses: azure/synapse-workspace-deployment@release-1.0
 #          with:

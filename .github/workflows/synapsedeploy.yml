@@ -54,6 +54,7 @@ jobs:
           with:
               name: modifiedjson-artifact
         - run: cat ./TemplateForWorkspace_modified.json
+        - run: diff ./TemplateForWorkspace_modified.json ./mdsynapsewspace/TemplateForWorkspace.json 
         - uses: azure/synapse-workspace-deployment@release-1.0
           with:
             TargetWorkspaceName: 'mdsynapsewspace-pro'

@@ -37,6 +37,7 @@ jobs:
             dst=$(jq -r '.table['$i'].destination' ./mdsynapsewspace/datamigration.json)
             echo ${dst}
             #azcopyv7 --source ${src} --destination ~/tableexport/ --source-key ${{secrets.SOURCE_STORAGE_KEY}} --verbose
+            azcopyv7 --help
             azcopyv7 /Source:${src} /Dest:~/tableexport/ /SourceKey:${{secrets.SOURCE_STORAGE_KEY}}
           done
       - run: ls -lhA ./tableexport/

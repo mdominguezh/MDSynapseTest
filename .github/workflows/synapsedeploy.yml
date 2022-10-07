@@ -58,7 +58,7 @@ jobs:
         - uses: azure/synapse-workspace-deployment@release-1.0
           with:
             TargetWorkspaceName: 'mdsynapsewspace-pro'
-            TemplateFile: './TemplateForWorkspace_modified.json'
+            TemplateFile: './mdsynapsewspace/TemplateForWorkspace.json'
             ParametersFile: './mdsynapsewspace/TemplateParametersForWorkspace.json'
             OverrideArmParameters: './mdsynapsewspace/parameters.yaml'
             environment: 'Azure Public'

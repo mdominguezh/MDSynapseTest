@@ -35,12 +35,16 @@ jobs:
           #azcopy copy --help
           #Start-Process -FilePath "C:\Program Files (x86)\Microsoft SDKs\Azure\AzCopy\AzCopy.exe" -ArgumentList "/help" -NoNewWindow
           Start-Process -FilePath "C:\Program Files (x86)\Microsoft SDKs\Azure\AzCopy\AzCopy.exe" -ArgumentList "/Source:https://mddlakestorage.table.core.windows.net/MDTestTable1","/Dest:D:\a\MDSynapseTest\MDSynapseTest\tableexport\","/SourceKey:${{secrets.SOURCE_STORAGE_KEY}}" -NoNewWindow
+          Start-Sleep -s 20
           Write-Output "Detro de tableexport:"
           Get-ChildItem -Path D:\a\MDSynapseTest\MDSynapseTest\tableexport
+          Start-Sleep -s 5
           Write-Output "Listado directorio actual:"
           Get-ChildItem -Path .
+          Start-Sleep -s 5
           Write-Output "Directorio actual:"
           cd
+          Start-Sleep -s 5
           Write-Output "Mostramos el manifiesto"
           type mddlakestorage_MDTestTable1_*.manifest
           

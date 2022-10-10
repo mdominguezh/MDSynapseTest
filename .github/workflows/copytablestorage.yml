@@ -46,7 +46,8 @@ jobs:
           cd
           Start-Sleep -s 5
           Write-Output "Mostramos el manifiesto"
-          Get-ChildItem -Path D:\a\MDSynapseTest\MDSynapseTest\tableexport -Filter *.manifest -Recurse | type %{$_.FullName}
+          prueba=Get-ChildItem -Path D:\a\MDSynapseTest\MDSynapseTest\tableexport -Filter *.manifest -Recurse | %{$_.FullName}
+          type ${prueba}
           #type mddlakestorage_MDTestTable1_*.manifest
           
   buildjob:

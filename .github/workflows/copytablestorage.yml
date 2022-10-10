@@ -34,7 +34,7 @@ jobs:
           mkdir tableexport
           #azcopy copy --help
           #Start-Process -FilePath "C:\Program Files (x86)\Microsoft SDKs\Azure\AzCopy\AzCopy.exe" -ArgumentList "/help" -NoNewWindow
-          Start-Process -FilePath "C:\Program Files (x86)\Microsoft SDKs\Azure\AzCopy\AzCopy.exe" -ArgumentList "/Source:https://mddlakestorage.table.core.windows.net/MDTestTable1","/Dest:~/tableexport/","/SourceKey:${{secrets.SOURCE_STORAGE_KEY}}" -NoNewWindow
+          Start-Process -FilePath "C:\Program Files (x86)\Microsoft SDKs\Azure\AzCopy\AzCopy.exe" -ArgumentList "/Source:https://mddlakestorage.table.core.windows.net/MDTestTable1","/Dest:D:\a\MDSynapseTest\MDSynapseTest\tableexport\","/SourceKey:${{secrets.SOURCE_STORAGE_KEY}}" -NoNewWindow
           Write-Output "Detro de tableexport:"
           Get-ChildItem -Path D:\a\MDSynapseTest\MDSynapseTest\tableexport
           Write-Output "Listado directorio actual:"

@@ -24,8 +24,8 @@ jobs:
         shell: pwsh
         run: |
           $client = new-object System.Net.WebClient
-          $client.DownloadFile("https://aka.ms/downloadazcopynet","%Temp%\MicrosoftAzureStorageAzCopy.msi")
-          Start-Process -Wait -FilePath '%Temp%\MicrosoftAzureStorageAzCopy.msi' -ArgumentList '/s /v/qn' -PassThru
+          $client.DownloadFile("https://aka.ms/downloadazcopynet","C:\Windows\Temp\MicrosoftAzureStorageAzCopy.msi")
+          Start-Process -Wait -FilePath 'C:\Windows\Temp\MicrosoftAzureStorageAzCopy.msi' -ArgumentList '/s /v/qn' -PassThru
           mkdir tableexport
           azcopy /Source:"https://mddlakestorage.table.core.windows.net/MDTestTable1" /Dest:~/tableexport/ /SourceKey:${{secrets.SOURCE_STORAGE_KEY}}          
 

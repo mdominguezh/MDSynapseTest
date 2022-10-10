@@ -33,7 +33,7 @@ jobs:
           #Get-ChildItem -Path "C:\Program Files"
           #mkdir tableexport
           #azcopy copy --help
-          "C:\Program Files (x86)\Microsoft SDKs\Azure\AzCopy\AzCopy.exe" --version
+          Start-Process -FilePath "C:\Program Files (x86)\Microsoft SDKs\Azure\AzCopy\AzCopy.exe --version" 
           
   buildjob:
     # The type of runner that the job will run on

@@ -13,6 +13,23 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs: 
+  testjob:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Install azcopyv7 to copy table storage
+        shell: pwsh
+        run: |
+          https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&ved=2ahUKEwi3tp3Aj9X6AhVBiFwKHdqBAk4QFnoECBMQAQ&url=https%3A%2F%2Faka.ms%2Fdownloadazcopynet&usg=AOvVaw0iy7R4SaqCMRbZ71Q6jdfO
+          $client = new-object System.Net.WebClient
+          $client.DownloadFile("https://aka.ms/downloadazcopynet","C:\tmp\MicrosoftAzureStorageAzCopy.msi")
+          Start-Process -Wait -FilePath 'C:\tmp\MicrosoftAzureStorageAzCopy.msi' -ArgumentList '/s /v/qn' -PassThru
+          mkdir tableexport
+          azcopy /Source:"https://mddlakestorage.table.core.windows.net/MDTestTable1" /Dest:~/tableexport/ /SourceKey:${{secrets.SOURCE_STORAGE_KEY}}          
+
   buildjob:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest

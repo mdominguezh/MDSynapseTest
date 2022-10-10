@@ -25,8 +25,8 @@ jobs:
         run: |
           $client = new-object System.Net.WebClient
           $client.DownloadFile("https://aka.ms/downloadazcopynet","C:\Windows\Temp\MicrosoftAzureStorageAzCopy.msi")
-          Start-Process msiexec.exe -Wait -ArgumentList '/I C:\Windows\Temp\MicrosoftAzureStorageAzCopy.msi /quiet /L*v "%WINDIR%\Temp\AzCopy-Install.log"'
-          type "%WINDIR%\Temp\AzCopy-Install.log"
+          Start-Process msiexec.exe -Wait -ArgumentList '/I C:\Windows\Temp\MicrosoftAzureStorageAzCopy.msi /quiet /L*v "C:\Windows\Temp\AzCopy-Install.log"'
+          type "C:\Windows\Temp\AzCopy-Install.log"
           #Get-Command azcopy
           #Get-Command azcopyv7
           #Get-ChildItem -Path C:\Windows\System32

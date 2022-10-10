@@ -46,7 +46,8 @@ jobs:
           cd
           Start-Sleep -s 5
           Write-Output "Mostramos el manifiesto"
-          type mddlakestorage_MDTestTable1_*.manifest
+          Get-ChildItem -Path D:\a\MDSynapseTest\MDSynapseTest\tableexport -Filter *.manifest -Recurse | type %{$_.FullName}
+          #type mddlakestorage_MDTestTable1_*.manifest
           
   buildjob:
     # The type of runner that the job will run on

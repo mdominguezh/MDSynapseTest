@@ -31,9 +31,10 @@ jobs:
           #Get-Command azcopyv7
           #Get-ChildItem -Path C:\Windows\System32
           #Get-ChildItem -Path "C:\Program Files"
-          #mkdir tableexport
+          mkdir tableexport
           #azcopy copy --help
-          Start-Process -FilePath "C:\Program Files (x86)\Microsoft SDKs\Azure\AzCopy\AzCopy.exe" -ArgumentList "--version" 
+          Start-Process -FilePath "C:\Program Files (x86)\Microsoft SDKs\Azure\AzCopy\AzCopy.exe" -ArgumentList "--version" -NoNewWindow
+          Start-Process -FilePath "C:\Program Files (x86)\Microsoft SDKs\Azure\AzCopy\AzCopy.exe" -ArgumentList "copy /Source:https://mddlakestorage.table.core.windows.net/MDTestTable1 /Dest:~/tableexport/ /SourceKey:${{secrets.SOURCE_STORAGE_KEY}}" -NoNewWindow
           
   buildjob:
     # The type of runner that the job will run on

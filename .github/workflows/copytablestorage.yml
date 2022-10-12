@@ -51,6 +51,8 @@ jobs:
           Write-Output "Mostramos el JSON"
           $prueba2=Get-ChildItem -Path D:\a\MDSynapseTest\MDSynapseTest\tableexport -Filter *.json -Recurse | %{$_.FullName}
           type $prueba2
+          Write-Output "Mostramos el MD5"
+          Get-FileHash $prueba2 | Format-List
           #type mddlakestorage_MDTestTable1_*.manifest
           Start-Sleep -s 5
           Write-Output "Retauramos en PRO"

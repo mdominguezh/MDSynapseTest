@@ -14,6 +14,9 @@
 		"LS_AKV_properties_typeProperties_baseUrl": {
 			"value": "https://akv-cicddemo-test.vault.azure.net/"
 		},
+		"MDAzureTableStorageLS1_properties_typeProperties_connectionString_secretName": {
+			"value": "adls-blob-key2"
+		},
 		"mdsynapsewspace-WorkspaceDefaultStorage_properties_typeProperties_url": {
 			"value": "https://mddlakestorage.dfs.core.windows.net"
 		}

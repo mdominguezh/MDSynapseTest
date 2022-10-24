@@ -4,12 +4,12 @@
 	"parameters": {
 		"workspaceName": {
 			"type": "string",
-			"metadata": "Workspace name",
+			"metadata": "Nombre del área de trabajo",
 			"defaultValue": "mdsynapsewspace"
 		},
 		"mdsynapsewspace-WorkspaceDefaultSqlServer_connectionString": {
 			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'mdsynapsewspace-WorkspaceDefaultSqlServer'"
+			"metadata": "Cadena protegida para \"connectionString\"de \"mdsynapsewspace-WorkspaceDefaultSqlServer\""
 		},
 		"AzureBlobStorage1_properties_typeProperties_connectionString_secretName": {
 			"type": "string",
@@ -18,6 +18,10 @@
 		"LS_AKV_properties_typeProperties_baseUrl": {
 			"type": "string",
 			"defaultValue": "https://akv-cicddemo-test.vault.azure.net/"
+		},
+		"MDAzureTableStorageLS1_properties_typeProperties_connectionString_secretName": {
+			"type": "string",
+			"defaultValue": "adls-blob-key2"
 		},
 		"mdsynapsewspace-WorkspaceDefaultStorage_properties_typeProperties_url": {
 			"type": "string",
@@ -145,6 +149,30 @@
 			"dependsOn": []
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/p_cicd_demo4')]",
+			"type": "Microsoft.Synapse/workspaces/pipelines",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"activities": [
+					{
+						"name": "Wait1",
+						"type": "Wait",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"waitTimeInSeconds": 1
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/AzureBlobStorage1')]",
 			"type": "Microsoft.Synapse/workspaces/linkedServices",
 			"apiVersion": "2019-06-01-preview",
@@ -184,6 +212,34 @@
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/MDAzureTableStorageLS1')]",
+			"type": "Microsoft.Synapse/workspaces/linkedServices",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"description": "Linked Service to Azure Table Storage Tes de Mdominguez 1",
+				"annotations": [],
+				"type": "AzureTableStorage",
+				"typeProperties": {
+					"connectionString": {
+						"type": "AzureKeyVaultSecret",
+						"store": {
+							"referenceName": "LS_AKV",
+							"type": "LinkedServiceReference"
+						},
+						"secretName": "[parameters('MDAzureTableStorageLS1_properties_typeProperties_connectionString_secretName')]"
+					}
+				},
+				"connectVia": {
+					"referenceName": "AutoResolveIntegrationRuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]",
+				"[concat(variables('workspaceId'), '/linkedServices/LS_AKV')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('workspaceName'), '/mdsynapsewspace-WorkspaceDefaultSqlServer')]",
@@ -331,6 +387,26 @@
 		},
 		{
 			"name": "[concat(parameters('workspaceName'), '/MDTestScript3')]",
+			"type": "Microsoft.Synapse/workspaces/sqlscripts",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"content": {
+					"query": "-- This is auto-generated code\nSELECT\n    TOP 100 *\nFROM\n    OPENROWSET(\n        BULK 'https://mddlakestorage.dfs.core.windows.net/mddlakestoragefs/NYCTaxi/PassengerCountStats_parquetformat/part-00000-35580d03-96ac-4047-ad97-7bfdc2b726cb-c000.snappy.parquet',\n        FORMAT = 'PARQUET'\n    ) AS [result]\n",
+					"metadata": {
+						"language": "sql"
+					},
+					"currentConnection": {
+						"databaseName": "master",
+						"poolName": "Built-in"
+					},
+					"resultLimit": 5000
+				},
+				"type": "SqlQuery"
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('workspaceName'), '/MDTestScript4')]",
 			"type": "Microsoft.Synapse/workspaces/sqlscripts",
 			"apiVersion": "2019-06-01-preview",
 			"properties": {
@@ -26497,30 +26573,6 @@
 			},
 			"dependsOn": [],
 			"location": "westeurope"
-		},
-		{
-			"name": "[concat(parameters('workspaceName'), '/p_cicd_demo4')]",
-			"type": "Microsoft.Synapse/workspaces/pipelines",
-			"apiVersion": "2019-06-01-preview",
-			"properties": {
-				"activities": [
-					{
-						"name": "Wait1",
-						"type": "Wait",
-						"dependsOn": [],
-						"userProperties": [],
-						"typeProperties": {
-							"waitTimeInSeconds": 1
-						}
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {},
-					"cancelAfter": {}
-				},
-				"annotations": []
-			},
-			"dependsOn": []
 		}
 	]
 }

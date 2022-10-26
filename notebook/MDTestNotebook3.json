@@ -18,91 +18,11 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "083f69cc-5320-45fc-99b9-60a6418a9d99"
+				"spark.autotune.trackingId": "ceb7f52d-d6a3-456d-854f-ea1be5347212"
 			}
 		},
 		"metadata": {
 			"saveOutput": true,
-			"synapse_widget": {
-				"version": "0.1",
-				"state": {
-					"2c1fd593-458f-4ff7-9be9-d4cf1b88b0a3": {
-						"type": "Synapse.DataFrame",
-						"sync_state": {
-							"table": {
-								"rows": [
-									{
-										"0": "1",
-										"1": "190167.33999999636",
-										"2": "2.8735733929704184"
-									},
-									{
-										"0": "2",
-										"1": "49399.7400000001",
-										"2": "3.130726915520635"
-									},
-									{
-										"0": "3",
-										"1": "14790.389999999987",
-										"2": "2.884803978935047"
-									},
-									{
-										"0": "4",
-										"1": "8558.350000000004",
-										"2": "2.9976707530648"
-									},
-									{
-										"0": "5",
-										"1": "17187.240000000013",
-										"2": "2.8550232558139554"
-									},
-									{
-										"0": "6",
-										"1": "10741.91",
-										"2": "2.8798686327077747"
-									}
-								],
-								"schema": [
-									{
-										"key": "0",
-										"name": "PassengerCount",
-										"type": "int"
-									},
-									{
-										"key": "1",
-										"name": "SumTripDistance",
-										"type": "double"
-									},
-									{
-										"key": "2",
-										"name": "AvgTripDistance",
-										"type": "double"
-									}
-								],
-								"truncated": false
-							},
-							"isSummary": false,
-							"language": "scala"
-						},
-						"persist_state": {
-							"view": {
-								"type": "details",
-								"chartOptions": {
-									"chartType": "bar",
-									"aggregationType": "sum",
-									"categoryFieldKeys": [
-										"1"
-									],
-									"seriesFieldKeys": [
-										"0"
-									],
-									"isStacked": false
-								}
-							}
-						}
-					}
-				}
-			},
 			"enableDebugMode": false,
 			"kernelspec": {
 				"name": "synapse_pyspark",
@@ -118,14 +38,13 @@
 				"endpoint": "https://mdsynapsewspace.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/mdspark1",
 				"auth": {
 					"type": "AAD",
-					"authResource": "https://dev.azuresynapse.net",
-					"authHeader": null
+					"authResource": "https://dev.azuresynapse.net"
 				},
 				"sparkVersion": "3.2",
 				"nodeCount": 3,
 				"cores": 4,
 				"memory": 28,
-				"extraHeader": null
+				"automaticScaleJobs": false
 			},
 			"sessionKeepAliveTimeout": 30
 		},
@@ -141,9 +60,8 @@
 				"source": [
 					"%%pyspark\r\n",
 					"df = spark.read.load('abfss://mddlakestoragefs@mddlakestorage.dfs.core.windows.net/NYCTaxi/PassengerCountStats_parquetformat/part-00000-35580d03-96ac-4047-ad97-7bfdc2b726cb-c000.snappy.parquet', format='parquet')\r\n",
-					"display(df.limit(10))"
+					"display(df.limit(5))"
 				],
-				"attachments": null,
 				"execution_count": 7
 			},
 			{
@@ -162,7 +80,6 @@
 				"source": [
 					""
 				],
-				"attachments": null,
 				"execution_count": null
 			}
 		]

@@ -56,7 +56,8 @@ jobs:
           #type mddlakestorage_MDTestTable1_*.manifest
           Start-Sleep -s 5
           Write-Output "Retauramos en PRO"
-          Start-Process -FilePath "C:\Program Files (x86)\Microsoft SDKs\Azure\AzCopy\AzCopy.exe" -ArgumentList "/Source:D:\a\MDSynapseTest\MDSynapseTest\tableexport\","/Dest:https://mddlakestoragepro.table.core.windows.net/MDTestTable1","/DestKey:${{secrets.DESTINATION_STORAGE_KEY}}","/Manifest:$prueba","/V:D:\a\MDSynapseTest\MDSynapseTest\tableexport\import-verbose-log-file.log","/EntityOperation:InsertOrReplace" -NoNewWindow
+          $manifestfilename=(Get-Item $prueba ).Name 
+          Start-Process -FilePath "C:\Program Files (x86)\Microsoft SDKs\Azure\AzCopy\AzCopy.exe" -ArgumentList "/Source:D:\a\MDSynapseTest\MDSynapseTest\tableexport\","/Dest:https://mddlakestoragepro.table.core.windows.net/MDTestTable1","/DestKey:${{secrets.DESTINATION_STORAGE_KEY}}","/Manifest:$manifestfilename","/V:D:\a\MDSynapseTest\MDSynapseTest\tableexport\import-verbose-log-file.log","/EntityOperation:InsertOrReplace" -NoNewWindow
           Start-Process -FilePath "C:\Program Files (x86)\Microsoft SDKs\Azure\AzCopy\AzCopy.exe" -ArgumentList "/?" -NoNewWindow
           Start-Sleep -s 25
           Write-Output "Mostramos el log del import"
